@@ -13,21 +13,25 @@ export default function DashboardPage() {
 
   return (
     <MainLayout>
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-3xl font-bold">
-              {getGreeting()}, {mockUser.name}! 👋
-            </h1>
-            <p className="text-zinc-500 mt-1">
+      <div className="space-y-12">
+        {/* Header - Editorial Style */}
+        <div className="flex items-end justify-between border-b border-foreground/10 pb-6">
+          <div className="space-y-2">
+            <div className="text-sm font-medium text-emerald">
               {formatDate(new Date())}
-            </p>
+            </div>
+            <h1 className="font-serif text-5xl md:text-6xl font-bold leading-tight">
+              {getGreeting()},
+              <br />
+              <span className="text-emerald">{mockUser.name}</span>
+            </h1>
           </div>
           <Link href="/meals">
-            <Button size="lg">
-              + הוסף ארוחה
-            </Button>
+            <button className="group px-6 py-3 bg-emerald hover:bg-emerald-dark text-white font-bold rounded-2xl transition-all hover:scale-105 hover:shadow-xl shadow-emerald/20">
+              <span className="flex items-center gap-2">
+                + הוסף ארוחה
+              </span>
+            </button>
           </Link>
         </div>
 
@@ -104,55 +108,49 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/meals">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">🗣️</span>
-                  <span>לוג מזון</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-zinc-500">
+        {/* Quick Actions - Magazine Grid */}
+        <div>
+          <h2 className="font-serif text-3xl font-bold mb-6">פעולות מהירות</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link href="/meals" className="group">
+              <div className="relative h-48 bg-gradient-to-br from-emerald/10 to-emerald/5 rounded-3xl p-8 border-2 border-emerald/20 hover:border-emerald/40 transition-all hover:shadow-2xl hover:shadow-emerald/10 hover:-translate-y-1">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🗣️</div>
+                <h3 className="font-serif text-2xl font-bold mb-2">לוג מזון</h3>
+                <p className="text-sm text-foreground/60">
                   הזן מה אכלת בשפה טבעית
                 </p>
-              </CardContent>
-            </Card>
-          </Link>
+                <div className="absolute bottom-6 left-6 text-emerald opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </div>
+              </div>
+            </Link>
 
-          <Link href="/recipes">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">📖</span>
-                  <span>מתכונים</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-zinc-500">
+            <Link href="/recipes" className="group">
+              <div className="relative h-48 bg-gradient-to-br from-terracotta/10 to-terracotta/5 rounded-3xl p-8 border-2 border-terracotta/20 hover:border-terracotta/40 transition-all hover:shadow-2xl hover:shadow-terracotta/10 hover:-translate-y-1">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">📖</div>
+                <h3 className="font-serif text-2xl font-bold mb-2">מתכונים</h3>
+                <p className="text-sm text-foreground/60">
                   חפש או צור מתכונים חדשים
                 </p>
-              </CardContent>
-            </Card>
-          </Link>
+                <div className="absolute bottom-6 left-6 text-terracotta opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </div>
+              </div>
+            </Link>
 
-          <Link href="/profile">
-            <Card className="hover:shadow-md transition-shadow cursor-pointer">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <span className="text-2xl">🎯</span>
-                  <span>מטרות</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-zinc-500">
+            <Link href="/profile" className="group">
+              <div className="relative h-48 bg-gradient-to-br from-golden/10 to-golden/5 rounded-3xl p-8 border-2 border-golden/20 hover:border-golden/40 transition-all hover:shadow-2xl hover:shadow-golden/10 hover:-translate-y-1">
+                <div className="text-5xl mb-4 transform group-hover:scale-110 transition-transform">🎯</div>
+                <h3 className="font-serif text-2xl font-bold mb-2">מטרות</h3>
+                <p className="text-sm text-foreground/60">
                   עדכן את המטרות התזונתיות שלך
                 </p>
-              </CardContent>
-            </Card>
-          </Link>
+                <div className="absolute bottom-6 left-6 text-golden opacity-0 group-hover:opacity-100 transition-opacity">
+                  →
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </MainLayout>

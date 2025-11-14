@@ -203,19 +203,6 @@ export default function ProfilePage() {
                 💡 Gemini מספק API חינמי מעולה לפרסור מזון
               </p>
             </div>
-
-            <div className="p-4 bg-green-50 dark:bg-green-950/20 rounded-lg border border-green-200 dark:border-green-900">
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">💰</div>
-                <div className="flex-1 text-sm">
-                  <strong className="block mb-1">TOON Format פעיל!</strong>
-                  <p className="text-zinc-600 dark:text-zinc-400">
-                    המערכת שלך משתמשת ב-TOON Format לחיסכון של 30-60% בעלויות AI.
-                    זה אומר פחות tokens = פחות כסף בכל קריאה!
-                  </p>
-                </div>
-              </div>
-            </div>
           </CardContent>
         </Card>
 

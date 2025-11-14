@@ -2,46 +2,45 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { mockUser } from '@/lib/mock-data';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/95 dark:bg-zinc-950/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-950/60">
-      <div className="container flex h-16 items-center justify-between px-4">
+    <header className="sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/80 backdrop-blur-xl">
+      <div className="container flex h-20 items-center justify-between px-6">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <div className="text-2xl">🥗</div>
-          <span className="text-xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="text-3xl transform group-hover:scale-110 transition-transform">🥗</div>
+          <span className="font-serif text-2xl font-bold text-emerald">
             Nutrition Track
           </span>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-6">
+        <nav className="hidden md:flex items-center gap-8">
           <Link
             href="/dashboard"
-            className="text-sm font-medium transition-colors hover:text-green-600"
+            className="text-base font-medium transition-all hover:text-emerald relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-emerald after:transition-all hover:after:w-full"
           >
             לוח בקרה
           </Link>
           <Link
             href="/meals"
-            className="text-sm font-medium transition-colors hover:text-green-600"
+            className="text-base font-medium transition-all hover:text-emerald relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-emerald after:transition-all hover:after:w-full"
           >
             ארוחות
           </Link>
           <Link
             href="/recipes"
-            className="text-sm font-medium transition-colors hover:text-green-600"
+            className="text-base font-medium transition-all hover:text-emerald relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-emerald after:transition-all hover:after:w-full"
           >
             מתכונים
           </Link>
           <Link
             href="/profile"
-            className="text-sm font-medium transition-colors hover:text-green-600"
+            className="text-base font-medium transition-all hover:text-emerald relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-0.5 after:bg-emerald after:transition-all hover:after:w-full"
           >
             פרופיל
           </Link>
@@ -50,17 +49,17 @@ export function Header() {
         {/* User Menu */}
         <div className="hidden md:flex items-center gap-4">
           <div className="text-sm text-right">
-            <div className="font-medium">{mockUser.name}</div>
-            <div className="text-xs text-zinc-500">{mockUser.email}</div>
+            <div className="font-bold">{mockUser.name}</div>
+            <div className="text-xs text-foreground/50">{mockUser.email}</div>
           </div>
-          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center text-white font-semibold">
+          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-white font-bold text-lg shadow-lg">
             {mockUser.name.charAt(0)}
           </div>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-2 rounded-lg hover:bg-emerald/10 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="תפריט"
         >
@@ -91,39 +90,39 @@ export function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
-          <nav className="flex flex-col p-4 space-y-3">
+        <div className="md:hidden border-t border-foreground/10 bg-background/95 backdrop-blur-xl">
+          <nav className="flex flex-col p-6 space-y-2">
             <Link
               href="/dashboard"
-              className="p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+              className="p-4 rounded-2xl hover:bg-emerald/10 transition-all font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               לוח בקרה
             </Link>
             <Link
               href="/meals"
-              className="p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+              className="p-4 rounded-2xl hover:bg-emerald/10 transition-all font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               ארוחות
             </Link>
             <Link
               href="/recipes"
-              className="p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+              className="p-4 rounded-2xl hover:bg-emerald/10 transition-all font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               מתכונים
             </Link>
             <Link
               href="/profile"
-              className="p-3 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors"
+              className="p-4 rounded-2xl hover:bg-emerald/10 transition-all font-medium"
               onClick={() => setMobileMenuOpen(false)}
             >
               פרופיל
             </Link>
-            <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800">
-              <div className="text-sm font-medium">{mockUser.name}</div>
-              <div className="text-xs text-zinc-500">{mockUser.email}</div>
+            <div className="pt-4 mt-2 border-t border-foreground/10">
+              <div className="text-sm font-bold">{mockUser.name}</div>
+              <div className="text-xs text-foreground/50">{mockUser.email}</div>
             </div>
           </nav>
         </div>

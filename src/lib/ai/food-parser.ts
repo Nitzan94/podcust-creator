@@ -161,7 +161,7 @@ export async function matchFoodsToDatabase(parsedFoods: ParsedMeal['foods']) {
       food = await db.query.foods.findFirst({
         where: or(
           ilike(foods.nameHe, `%${parsedFood.name}%`),
-          ilike(foods.nameEn, `%${parsedFood.name}%)
+          ilike(foods.nameEn, `%${parsedFood.name}%`)
         ),
       });
     }
@@ -214,7 +214,7 @@ export function calculateNutrition(
     const protein = parseFloat(food.protein) * factor;
     const carbs = parseFloat(food.carbs) * factor;
     const fat = parseFloat(food.fat) * factor;
-    const fiber = parseFloat(food.fiber) * factor;
+    const fiber = parseFloat(food.fiber || '0') * factor;
 
     totalCalories += calories;
     totalProtein += protein;

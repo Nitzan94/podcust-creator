@@ -63,7 +63,6 @@ export async function generateAIText(
       model,
       prompt,
       temperature,
-      maxTokens,
     });
 
     return text;

@@ -90,7 +90,7 @@ export function calculateRecipeNutrition(ingredients: Array<{
     protein: string;
     carbs: string;
     fat: string;
-    fiber: string;
+    fiber: string | null;
   };
   quantity: string;
   unit: string;
@@ -114,7 +114,7 @@ export function calculateRecipeNutrition(ingredients: Array<{
     totalProtein += parseFloat(ingredient.food.protein) * factor;
     totalCarbs += parseFloat(ingredient.food.carbs) * factor;
     totalFat += parseFloat(ingredient.food.fat) * factor;
-    totalFiber += parseFloat(ingredient.food.fiber) * factor;
+    totalFiber += parseFloat(ingredient.food.fiber || '0') * factor;
   }
 
   return {
@@ -246,9 +246,11 @@ export async function createRecipeFromAI(
     difficulty: aiRecipe.difficulty,
     instructions: aiRecipe.instructions,
     tags: aiRecipe.tags.join(','),
-    ...nutrition,
-    caloriesPerServing: Math.round(nutrition.totalCalories / aiRecipe.servings),
-    proteinPerServing: Math.round((nutrition.totalProtein / aiRecipe.servings) * 10) / 10,
+    totalCalories: nutrition.totalCalories.toString(),
+    totalProtein: nutrition.totalProtein.toString(),
+    totalCarbs: nutrition.totalCarbs.toString(),
+    totalFat: nutrition.totalFat.toString(),
+    totalFiber: nutrition.totalFiber.toString(),
   }).returning();
 
   // Add ingredients

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-8 bg-gradient-to-b from-background to-zinc-50 dark:to-zinc-900">
@@ -51,7 +53,7 @@ export default function Home() {
             <div className="text-3xl mb-3">📖</div>
             <h3 className="font-semibold text-lg mb-2">מתכונים אישיים</h3>
             <p className="text-sm text-foreground/60">
-              צור וחפש מתכונים מותאמים אישית
+              צור וחפש מתכונים מותאמים אישית עם AI
             </p>
           </div>
 
@@ -65,9 +67,11 @@ export default function Home() {
         </div>
 
         <div className="pt-8 space-y-4">
-          <button className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
-            התחל עכשיו
-          </button>
+          <Link href="/dashboard">
+            <button className="px-8 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors">
+              התחל עכשיו →
+            </button>
+          </Link>
 
           <div className="text-xs text-foreground/50">
             <p>Powered by TOON Format - חוסך עד 60% בעלויות AI! 💰</p>

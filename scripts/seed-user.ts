@@ -3,14 +3,20 @@
  * Usage: tsx scripts/seed-user.ts
  */
 
+import { config } from 'dotenv';
+config({ path: '.env.local' });
+
 import { db, users } from '@/lib/db';
 import { eq } from 'drizzle-orm';
+
+// Fixed UUID for demo user
+const DEMO_USER_ID = '00000000-0000-0000-0000-000000000001';
 
 async function seedUser() {
   console.log('🌱 Seeding mock user...\n');
 
   const mockUser = {
-    id: '1',
+    id: DEMO_USER_ID,
     email: 'demo@nutrition-track.com',
     name: 'דני כהן',
     dailyCalorieGoal: 2000,

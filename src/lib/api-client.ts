@@ -90,14 +90,14 @@ export const mealsAPI = {
    * Parse natural language input with AI
    */
   parse: async (text: string, provider?: string): Promise<{
-    parsed: any;
-    matched: any[];
-    nutrition: any;
+    parsed: unknown;
+    matched: unknown;
+    nutrition: unknown;
     mealData: {
       parsedText: string;
       mealType?: string;
-      items: any[];
-      totals: any;
+      items: unknown;
+      totals: unknown;
     };
   }> => {
     return fetchAPI(`${API_BASE}/meals/parse`, {

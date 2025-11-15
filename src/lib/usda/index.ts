@@ -134,14 +134,14 @@ export function convertUSDAToOurFormat(usdaFood: USDAFood) {
     usdaId: usdaFood.fdcId.toString(),
     nameEn: usdaFood.description,
     nameHe: '', // Will need translation
-    calories: nutrients.calories || 0,
-    protein: nutrients.protein || 0,
-    carbs: nutrients.carbs || 0,
-    fat: nutrients.fat || 0,
-    fiber: nutrients.fiber || 0,
-    sugar: nutrients.sugar || 0,
-    sodium: nutrients.sodium || 0,
-    servingSize: 100, // USDA data is per 100g
+    calories: (nutrients.calories || 0).toString(),
+    protein: (nutrients.protein || 0).toString(),
+    carbs: (nutrients.carbs || 0).toString(),
+    fat: (nutrients.fat || 0).toString(),
+    fiber: (nutrients.fiber || 0).toString(),
+    sugar: (nutrients.sugar || 0).toString(),
+    sodium: (nutrients.sodium || 0).toString(),
+    servingSize: '100', // USDA data is per 100g
     servingUnit: 'g' as const,
     source: 'usda' as const,
     verified: true,

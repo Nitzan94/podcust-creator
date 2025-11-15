@@ -8,6 +8,20 @@
       "when": 1763152181792,
       "tag": "0000_foamy_virginia_dare",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1763203040022,
+      "tag": "0001_mean_lily_hollister",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1763203599267,
+      "tag": "0002_handy_the_captain",
+      "breakpoints": true
     }
   ]
 }

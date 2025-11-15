@@ -2,10 +2,14 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { mockUser } from '@/lib/mock-data';
+import { useSession, signOut } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { data: session } = useSession();
+
+  const user = session?.user;
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-foreground/10 bg-background/80 backdrop-blur-xl">
@@ -48,13 +52,29 @@ export function Header() {
 
         {/* User Menu */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="text-sm text-right">
-            <div className="font-bold">{mockUser.name}</div>
-            <div className="text-xs text-foreground/50">{mockUser.email}</div>
-          </div>
-          <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-white font-bold text-lg shadow-lg">
-            {mockUser.name.charAt(0)}
-          </div>
+          {user ? (
+            <>
+              <div className="text-sm text-right">
+                <div className="font-bold">{user.name || user.email?.split('@')[0]}</div>
+                <div className="text-xs text-foreground/50">{user.email}</div>
+              </div>
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-emerald to-emerald-dark flex items-center justify-center text-white font-bold text-lg shadow-lg">
+                {(user.name || user.email)?.charAt(0).toUpperCase()}
+              </div>
+              <Button
+                onClick={() => signOut({ callbackUrl: '/' })}
+                variant="outline"
+                size="sm"
+                className="mr-2"
+              >
+                התנתק
+              </Button>
+            </>
+          ) : (
+            <Link href="/auth/signin">
+              <Button>התחבר</Button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -120,10 +140,20 @@ export function Header() {
             >
               פרופיל
             </Link>
-            <div className="pt-4 mt-2 border-t border-foreground/10">
-              <div className="text-sm font-bold">{mockUser.name}</div>
-              <div className="text-xs text-foreground/50">{mockUser.email}</div>
-            </div>
+            {user && (
+              <div className="pt-4 mt-2 border-t border-foreground/10 space-y-2">
+                <div className="text-sm font-bold">{user.name || user.email?.split('@')[0]}</div>
+                <div className="text-xs text-foreground/50">{user.email}</div>
+                <Button
+                  onClick={() => signOut({ callbackUrl: '/' })}
+                  variant="outline"
+                  size="sm"
+                  className="w-full mt-2"
+                >
+                  התנתק
+                </Button>
+              </div>
+            )}
           </nav>
         </div>
       )}

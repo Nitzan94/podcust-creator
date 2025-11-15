@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, meals, mealItems, foods } from '@/lib/db';
 import { eq, desc, and, gte, lte } from 'drizzle-orm';
+import { auth } from '@/lib/auth/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,8 +11,15 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(request: NextRequest) {
   try {
-    // TODO: Get userId from session when auth is implemented
-    const userId = '1'; // Temporary mock user
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = session.user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const dateParam = searchParams.get('date');
@@ -64,8 +72,15 @@ export async function GET(request: NextRequest) {
  */
 export async function POST(request: NextRequest) {
   try {
-    // TODO: Get userId from session when auth is implemented
-    const userId = '1'; // Temporary mock user
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = session.user.id;
 
     const body = await request.json();
     const { name, mealType, parsedText, items, timestamp } = body;
@@ -112,28 +127,28 @@ export async function POST(request: NextRequest) {
 
         return {
           foodId: item.foodId,
-          quantity: item.quantity,
-          unit: item.unit || 'g',
-          calories: Math.round(calories * 100) / 100,
-          protein: Math.round(protein * 100) / 100,
-          carbs: Math.round(carbs * 100) / 100,
-          fat: Math.round(fat * 100) / 100,
+          quantity: item.quantity.toString(),
+          unit: (item.unit || 'g') as 'g' | 'ml' | 'unit' | 'cup' | 'tbsp' | 'tsp',
+          calories: (Math.round(calories * 100) / 100).toString(),
+          protein: (Math.round(protein * 100) / 100).toString(),
+          carbs: (Math.round(carbs * 100) / 100).toString(),
+          fat: (Math.round(fat * 100) / 100).toString(),
         };
       })
     );
 
     // Create meal
     const [meal] = await db.insert(meals).values({
-      userId,
-      name,
-      mealType,
-      parsedText,
+      userId: userId,
+      name: name,
+      mealType: mealType,
+      parsedText: parsedText,
       timestamp: timestamp ? new Date(timestamp) : new Date(),
-      totalCalories: Math.round(totalCalories * 100) / 100,
-      totalProtein: Math.round(totalProtein * 100) / 100,
-      totalCarbs: Math.round(totalCarbs * 100) / 100,
-      totalFat: Math.round(totalFat * 100) / 100,
-      totalFiber: Math.round(totalFiber * 100) / 100,
+      totalCalories: (Math.round(totalCalories * 100) / 100).toString(),
+      totalProtein: (Math.round(totalProtein * 100) / 100).toString(),
+      totalCarbs: (Math.round(totalCarbs * 100) / 100).toString(),
+      totalFat: (Math.round(totalFat * 100) / 100).toString(),
+      totalFiber: (Math.round(totalFiber * 100) / 100).toString(),
     }).returning();
 
     // Create meal items
@@ -175,8 +190,15 @@ export async function POST(request: NextRequest) {
  */
 export async function DELETE(request: NextRequest) {
   try {
-    // TODO: Get userId from session when auth is implemented
-    const userId = '1'; // Temporary mock user
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = session.user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const mealId = searchParams.get('id');

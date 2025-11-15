@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { parseFoodInput, matchFoodsToDatabase, calculateNutrition } from '@/lib/ai/food-parser';
+import { auth } from '@/lib/auth/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,6 +11,14 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(request: NextRequest) {
   try {
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
     const { text, provider } = body;
 

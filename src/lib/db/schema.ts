@@ -12,7 +12,11 @@ export const recipeCategoryEnum = pgEnum('recipe_category', ['breakfast', 'lunch
 export const users = pgTable('users', {
   id: uuid('id').primaryKey().defaultRandom(),
   email: text('email').unique().notNull(),
-  name: text('name').notNull(),
+  name: text('name'),
+  image: text('image'), // Profile image from OAuth
+  emailVerified: timestamp('email_verified', { mode: 'date' }),
+  hashedPassword: text('hashed_password'), // For email/password auth
+
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 
@@ -22,6 +26,34 @@ export const users = pgTable('users', {
   carbsGoal: integer('carbs_goal').default(200),
   fatGoal: integer('fat_goal').default(70),
   fiberGoal: integer('fiber_goal').default(30),
+});
+
+// NextAuth tables
+export const accounts = pgTable('accounts', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  type: text('type').notNull(),
+  provider: text('provider').notNull(),
+  providerAccountId: text('provider_account_id').notNull(),
+  refresh_token: text('refresh_token'),
+  access_token: text('access_token'),
+  expires_at: integer('expires_at'),
+  token_type: text('token_type'),
+  scope: text('scope'),
+  id_token: text('id_token'),
+  session_state: text('session_state'),
+});
+
+export const sessions = pgTable('sessions', {
+  sessionToken: text('session_token').primaryKey(),
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }).notNull(),
+  expires: timestamp('expires', { mode: 'date' }).notNull(),
+});
+
+export const verificationTokens = pgTable('verification_tokens', {
+  identifier: text('identifier').notNull(),
+  token: text('token').notNull().unique(),
+  expires: timestamp('expires', { mode: 'date' }).notNull(),
 });
 
 // Foods table - our main nutrition database
@@ -176,6 +208,22 @@ export const usersRelations = relations(users, ({ many }) => ({
   favorites: many(favorites),
   contributedFoods: many(foods),
   recipes: many(recipes),
+  accounts: many(accounts),
+  sessions: many(sessions),
+}));
+
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, {
+    fields: [accounts.userId],
+    references: [users.id],
+  }),
+}));
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  user: one(users, {
+    fields: [sessions.userId],
+    references: [users.id],
+  }),
 }));
 
 export const foodsRelations = relations(foods, ({ one, many }) => ({

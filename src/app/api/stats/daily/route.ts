@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db, meals, users } from '@/lib/db';
 import { eq, and, gte, lte } from 'drizzle-orm';
+import { auth } from '@/lib/auth/config';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,8 +11,15 @@ export const dynamic = 'force-dynamic';
  */
 export async function GET(request: NextRequest) {
   try {
-    // TODO: Get userId from session when auth is implemented
-    const userId = '1'; // Temporary mock user
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    const userId = session.user.id;
 
     const searchParams = request.nextUrl.searchParams;
     const dateParam = searchParams.get('date');

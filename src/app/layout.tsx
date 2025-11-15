@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { SessionProvider } from "@/components/providers/session-provider";
 
 export const metadata: Metadata = {
   title: "Nutrition Track - מעקב תזונה",
@@ -19,7 +20,9 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Alef:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased">
-        {children}
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );

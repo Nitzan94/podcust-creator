@@ -30,8 +30,16 @@ Required variables:
 # Database (REQUIRED)
 DATABASE_URL=postgresql://user:password@host/database
 
+# Authentication (REQUIRED)
+NEXTAUTH_URL=http://localhost:3000  # Your app URL
+NEXTAUTH_SECRET=xxx  # Generate with: openssl rand -base64 32
+
+# Google OAuth (Optional - for "Sign in with Google")
+GOOGLE_CLIENT_ID=xxx  # Get at: https://console.cloud.google.com/
+GOOGLE_CLIENT_SECRET=xxx
+
 # AI Provider (at least ONE required)
-GOOGLE_API_KEY=xxx  # FREE! Get at: https://makersuite.google.com/app/apikey
+GOOGLE_GENERATIVE_AI_API_KEY=xxx  # FREE! Get at: https://makersuite.google.com/app/apikey
 # OR
 OPENAI_API_KEY=xxx  # https://platform.openai.com/api-keys
 # OR
@@ -39,6 +47,15 @@ ANTHROPIC_API_KEY=xxx  # https://console.anthropic.com/
 
 # USDA (Optional but recommended for seeding)
 USDA_API_KEY=xxx  # FREE! Get at: https://fdc.nal.usda.gov/api-key-signup.html
+```
+
+#### Generate NEXTAUTH_SECRET
+
+```bash
+# On Linux/Mac:
+openssl rand -base64 32
+
+# Or use any random string generator
 ```
 
 ### 3. Setup Database
@@ -50,6 +67,9 @@ npm run db:push
 
 This creates all the necessary tables:
 - ✅ users
+- ✅ accounts (for OAuth)
+- ✅ sessions (for auth sessions)
+- ✅ verification_tokens (for email verification)
 - ✅ foods
 - ✅ meals
 - ✅ meal_items
@@ -93,15 +113,27 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### First Time User Flow
 
 1. **Open the app** → http://localhost:3000
-2. **Click "התחל עכשיו"** → Goes to Dashboard
-3. **Dashboard** → See nutrition stats (empty initially)
-4. **Click "+ הוסף ארוחה"** → Goes to Meals page
-5. **Type what you ate** in natural language:
+2. **Click "התחל עכשיו"** or **"הירשם"** → Goes to signup page
+3. **Sign up** with:
+   - Email & Password (recommended)
+   - Or Google account
+4. **Auto-redirect to Dashboard** → See nutrition stats (empty initially)
+5. **Click "+ הוסף ארוחה"** → Goes to Meals page
+6. **Type what you ate** in natural language:
    ```
    "2 ביצים וטוסט עם אבוקדו"
    ```
-6. **Click "פרסר עם AI והוסף"** → AI parses and creates meal
-7. **Go back to Dashboard** → See your updated stats!
+7. **Click "פרסר עם AI והוסף"** → AI parses and creates meal
+8. **Go back to Dashboard** → See your updated stats!
+
+### Authentication Features
+
+- ✅ **Email/Password** authentication
+- ✅ **Google OAuth** (optional - requires GOOGLE_CLIENT_ID)
+- ✅ **Protected routes** - Dashboard, Meals, Recipes, Profile require login
+- ✅ **Session management** with NextAuth.js
+- ✅ **Password hashing** with bcrypt
+- ✅ **Auto sign-in** after registration
 
 ---
 
@@ -282,10 +314,11 @@ npm run build
 
 After setup, you can:
 
-1. **Test the food logging** with AI
-2. **Add more foods** via the USDA API
-3. **Create recipes** with AI
-4. **Setup authentication** (NextAuth.js)
-5. **Deploy to Vercel**
+1. ✅ **Authentication is ready!** - Users can sign up/sign in
+2. **Test the food logging** with AI
+3. **Add more foods** via the USDA API
+4. **Create recipes** with AI
+5. **Setup Google OAuth** (optional)
+6. **Deploy to Vercel**
 
 Enjoy tracking your nutrition! 🥗

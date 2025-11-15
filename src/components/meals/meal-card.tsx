@@ -80,7 +80,7 @@ export function MealCard({ meal, onDelete }: MealCardProps) {
               <div key={item.id} className="flex justify-between text-sm">
                 <span>{item.food.nameHe}</span>
                 <span className="text-zinc-500">
-                  {formatNumber(item.quantity)} {item.unit}
+                  {formatNumber(Number(item.quantity) || 0)} {item.unit}
                 </span>
               </div>
             ))}
@@ -90,25 +90,25 @@ export function MealCard({ meal, onDelete }: MealCardProps) {
           <div className="pt-3 border-t border-zinc-200 dark:border-zinc-800 grid grid-cols-4 gap-2 text-center text-sm">
             <div>
               <div className="text-2xl font-bold text-green-600">
-                {formatNumber(meal.totalCalories)}
+                {formatNumber(Number(meal.totalCalories) || 0)}
               </div>
               <div className="text-xs text-zinc-500">קלוריות</div>
             </div>
             <div>
               <div className="text-lg font-semibold">
-                {formatNumber(meal.totalProtein, 1)}g
+                {formatNumber(Number(meal.totalProtein) || 0, 1)}g
               </div>
               <div className="text-xs text-zinc-500">חלבון</div>
             </div>
             <div>
               <div className="text-lg font-semibold">
-                {formatNumber(meal.totalCarbs, 1)}g
+                {formatNumber(Number(meal.totalCarbs) || 0, 1)}g
               </div>
               <div className="text-xs text-zinc-500">פחמימות</div>
             </div>
             <div>
               <div className="text-lg font-semibold">
-                {formatNumber(meal.totalFat, 1)}g
+                {formatNumber(Number(meal.totalFat) || 0, 1)}g
               </div>
               <div className="text-xs text-zinc-500">שומן</div>
             </div>
@@ -143,8 +143,8 @@ export function MealCard({ meal, onDelete }: MealCardProps) {
       {showEdit && (
         <EditMealModal
           mealId={meal.id}
-          initialName={meal.name}
-          initialMealType={meal.mealType}
+          initialName={meal.name || ''}
+          initialMealType={meal.mealType || ''}
           initialItems={meal.items}
           onClose={() => setShowEdit(false)}
           onSave={() => {

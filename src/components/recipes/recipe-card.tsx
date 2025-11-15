@@ -81,7 +81,7 @@ export function RecipeCard({ recipe }: RecipeCardProps) {
 
           {/* Ingredients Count */}
           <div className="text-xs text-zinc-500">
-            {recipe.ingredients.length} מרכיבים
+            {recipe.ingredients?.length || 0} מרכיבים
           </div>
         </CardContent>
       </Card>

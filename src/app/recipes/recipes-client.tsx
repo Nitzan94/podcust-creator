@@ -60,7 +60,18 @@ export function RecipesClient({ initialRecipes }: RecipesClientProps) {
         const ingredientsWithIds = await Promise.all(
           recipeData.ingredients.map(async (ing: any) => {
             try {
-              const result = await api.foods.search(ing.name, 1);
+              // Try exact search first
+              let result = await api.foods.search(ing.name, 1);
+
+              // If not found, try searching by each word
+              if (result.foods.length === 0) {
+                const words = ing.name.split(' ').filter((w: string) => w.length > 2);
+                for (const word of words.reverse()) { // Start from last word (usually the main ingredient)
+                  result = await api.foods.search(word, 1);
+                  if (result.foods.length > 0) break;
+                }
+              }
+
               if (result.foods.length > 0) {
                 return {
                   foodId: result.foods[0].id,

@@ -9,7 +9,6 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { mockMeals } from '@/lib/mock-data';
 import api from '@/lib/api-client';
 import type { Food } from '@/types';
 
@@ -31,9 +30,27 @@ export default function MealsPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [mealType, setMealType] = useState('');
   const [mealName, setMealName] = useState('');
+  const [meals, setMeals] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Manual mode states
   const [selectedFoods, setSelectedFoods] = useState<SelectedFood[]>([]);
+
+  const loadMeals = async () => {
+    try {
+      setIsLoading(true);
+      const result = await api.meals.getAll();
+      setMeals(result.meals);
+    } catch (error) {
+      console.error('Error loading meals:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadMeals();
+  }, []);
 
   const handleNaturalLanguageSubmit = async () => {
     setIsProcessing(true);
@@ -49,6 +66,7 @@ export default function MealsPage() {
       setMealType('');
       setMealName('');
       setShowForm(false);
+      await loadMeals();
       alert('ארוחה נוספה בהצלחה!');
     } catch (error) {
       console.error('Error:', error);
@@ -157,6 +175,7 @@ export default function MealsPage() {
       setMealType('');
       setMealName('');
       setShowForm(false);
+      await loadMeals();
       alert('ארוחה נוספה בהצלחה!');
     } catch (error) {
       console.error('Error:', error);
@@ -204,7 +223,12 @@ export default function MealsPage() {
                   🤖 עם AI
                 </button>
                 <button
-                  onClick={() => setFormMode('manual')}
+                  onClick={() => {
+                    setFormMode('manual');
+                    if (selectedFoods.length === 0) {
+                      handleAddFood();
+                    }
+                  }}
                   className={`px-6 py-2 font-bold rounded-xl transition-all ${
                     formMode === 'manual'
                       ? 'bg-emerald text-white shadow-lg'
@@ -484,10 +508,19 @@ export default function MealsPage() {
         <div className="space-y-6">
           <h2 className="font-serif text-3xl font-bold">היסטוריית ארוחות</h2>
 
-          {mockMeals.length > 0 ? (
+          {isLoading ? (
+            <Card>
+              <CardContent className="py-12 text-center">
+                <div className="text-6xl mb-4">⏳</div>
+                <p className="text-lg font-medium text-zinc-700 dark:text-zinc-300">
+                  טוען ארוחות...
+                </p>
+              </CardContent>
+            </Card>
+          ) : meals.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {mockMeals.map((meal) => (
-                <MealCard key={meal.id} meal={meal} />
+              {meals.map((meal) => (
+                <MealCard key={meal.id} meal={meal} onDelete={loadMeals} />
               ))}
             </div>
           ) : (

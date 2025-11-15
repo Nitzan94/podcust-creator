@@ -3,8 +3,11 @@ import type { NutritionProgress, NutritionGoals } from '@/types';
 /**
  * Format number with Hebrew locale
  */
-export function formatNumber(num: number, decimals: number = 0): string {
-  return num.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+export function formatNumber(num: number | null | undefined, decimals: number = 0): string {
+  if (num === null || num === undefined) return '0';
+  const parsed = Number(num);
+  if (isNaN(parsed)) return '0';
+  return parsed.toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 /**
@@ -41,8 +44,9 @@ export function getProgressBarColor(percentage: number): string {
 /**
  * Format time (HH:MM)
  */
-export function formatTime(date: Date): string {
-  return date.toLocaleTimeString('he-IL', {
+export function formatTime(date: Date | string): string {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return d.toLocaleTimeString('he-IL', {
     hour: '2-digit',
     minute: '2-digit',
   });
@@ -51,8 +55,9 @@ export function formatTime(date: Date): string {
 /**
  * Format date (DD/MM/YYYY)
  */
-export function formatDate(date: Date): string {
-  return date.toLocaleDateString('he-IL');
+export function formatDate(date: Date | string): string {
+  const d = typeof date === 'string' ? new Date(date) : date;
+  return d.toLocaleDateString('he-IL');
 }
 
 /**

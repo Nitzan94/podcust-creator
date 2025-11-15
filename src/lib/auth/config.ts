@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
 export const authConfig: NextAuthConfig = {
+  secret: process.env['AUTH_SECRET'],
   adapter: DrizzleAdapter(db, {
     usersTable: users,
     accountsTable: accounts,
@@ -25,8 +26,8 @@ export const authConfig: NextAuthConfig = {
   },
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: process.env['GOOGLE_CLIENT_ID'],
+      clientSecret: process.env['GOOGLE_CLIENT_SECRET'],
     }),
     Credentials({
       name: "credentials",

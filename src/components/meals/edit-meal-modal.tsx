@@ -32,8 +32,8 @@ export function EditMealModal({
   onClose,
   onSave,
 }: EditMealModalProps) {
-  const [name, setName] = useState(initialName);
-  const [mealType, setMealType] = useState(initialMealType);
+  const [name, setName] = useState(initialName || '');
+  const [mealType, setMealType] = useState(initialMealType || '');
   const [items, setItems] = useState(initialItems);
   const [isSaving, setIsSaving] = useState(false);
 

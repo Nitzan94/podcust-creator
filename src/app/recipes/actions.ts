@@ -26,7 +26,53 @@ export async function getRecipes() {
     orderBy: [desc(recipes.createdAt)],
   });
 
-  return userRecipes;
+  // Transform DB data to match client expectations
+  return userRecipes.map((recipe) => ({
+    ...recipe,
+    tags: recipe.tags ? recipe.tags.split(',').map((t) => t.trim()) : [],
+    totalCalories: Number(recipe.totalCalories) || 0,
+    totalProtein: Number(recipe.totalProtein) || 0,
+    totalCarbs: Number(recipe.totalCarbs) || 0,
+    totalFat: Number(recipe.totalFat) || 0,
+    totalFiber: Number(recipe.totalFiber) || 0,
+    caloriesPerServing: Number(recipe.caloriesPerServing) || 0,
+    proteinPerServing: Number(recipe.proteinPerServing) || 0,
+  }));
+}
+
+export async function getRecipe(recipeId: string) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized');
+  }
+
+  const recipe = await db.query.recipes.findFirst({
+    where: eq(recipes.id, recipeId),
+    with: {
+      ingredients: {
+        with: {
+          food: true,
+        },
+      },
+    },
+  });
+
+  if (!recipe) {
+    throw new Error('Recipe not found');
+  }
+
+  // Transform DB data to match client expectations
+  return {
+    ...recipe,
+    tags: recipe.tags ? recipe.tags.split(',').map((t) => t.trim()) : [],
+    totalCalories: Number(recipe.totalCalories) || 0,
+    totalProtein: Number(recipe.totalProtein) || 0,
+    totalCarbs: Number(recipe.totalCarbs) || 0,
+    totalFat: Number(recipe.totalFat) || 0,
+    totalFiber: Number(recipe.totalFiber) || 0,
+    caloriesPerServing: Number(recipe.caloriesPerServing) || 0,
+    proteinPerServing: Number(recipe.proteinPerServing) || 0,
+  };
 }
 
 export async function createRecipe(data: {

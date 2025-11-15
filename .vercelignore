@@ -1,0 +1,4 @@
+.env.local
+.env*.local
+.claude
+node_modules

@@ -20,28 +20,8 @@ AI-powered nutrition tracking app with natural language food logging in Hebrew.
 - **Styling:** Tailwind CSS 4
 - **Database:** NeonDB (PostgreSQL) + Drizzle ORM
 - **AI:** Vercel AI SDK (Gemini/OpenAI/Claude)
-- **Token Optimization:** TOON Format (saves 30-60% on AI costs!)
 - **Language:** TypeScript 5
 - **Nutrition Data:** USDA FoodData Central API
-
-## 💰 Why TOON?
-
-TOON format dramatically reduces tokens when sending food data to AI:
-
-```typescript
-// JSON (verbose, expensive)
-[
-  {"id": 1, "name": "ביצה", "calories": 70, "protein": 6},
-  {"id": 2, "name": "לחם", "calories": 80, "protein": 4}
-]
-
-// TOON (compact, cheap!)
-foods[2]{id,name,calories,protein}:
- 1,ביצה,70,6
- 2,לחם,80,4
-```
-
-**Result:** 30-60% fewer tokens = 30-60% lower AI costs! 💸
 
 ## 📦 Installation
 
@@ -98,7 +78,6 @@ nutrition-track/
 │   └── lib/
 │       ├── ai/          # AI integration & food parser
 │       ├── db/          # Database schema & client
-│       ├── toon/        # TOON format utilities
 │       └── usda/        # USDA API integration
 ├── drizzle/             # Database migrations
 └── public/              # Static assets
@@ -122,7 +101,7 @@ import { parseFoodInput } from '@/lib/ai/food-parser';
 // User types in natural language (Hebrew)
 const input = "ארוחת בוקר: 2 ביצים, טוסט עם חמאת בוטנים";
 
-// AI + TOON parses it automatically
+// AI parses it automatically
 const result = await parseFoodInput(input);
 
 // Result:
@@ -176,6 +155,5 @@ MIT
 
 ## 🙏 Credits
 
-- **TOON Format:** https://github.com/toon-format/toon
 - **USDA FoodData Central:** https://fdc.nal.usda.gov/
 - **Vercel AI SDK:** https://sdk.vercel.ai/

@@ -34,7 +34,7 @@ interface USDASearchResult {
  * Search USDA food database
  */
 export async function searchUSDAFoods(params: USDASearchParams): Promise<USDASearchResult> {
-  const apiKey = process.env.USDA_API_KEY;
+  const apiKey = process.env['USDA_API_KEY'];
 
   if (!apiKey) {
     throw new Error('USDA_API_KEY is not set. Get one at https://fdc.nal.usda.gov/api-key-signup.html');
@@ -76,7 +76,7 @@ export async function searchUSDAFoods(params: USDASearchParams): Promise<USDASea
  * Get specific food details by FDC ID
  */
 export async function getUSDAFood(fdcId: number): Promise<USDAFood> {
-  const apiKey = process.env.USDA_API_KEY;
+  const apiKey = process.env['USDA_API_KEY'];
 
   if (!apiKey) {
     throw new Error('USDA_API_KEY is not set');

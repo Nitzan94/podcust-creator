@@ -41,7 +41,7 @@ export function MealsWithCalendar() {
     try {
       const dateStr = selectedDate.toISOString().split('T')[0];
       const result = await api.meals.getAll(dateStr);
-      setMeals(result.meals || []);
+      setMeals((result.meals || []).map(m => ({ ...m, timestamp: typeof m.timestamp === 'string' ? m.timestamp : m.timestamp.toISOString() })));
     } catch (error) {
       console.error('Failed to load meals:', error);
       setMeals([]);

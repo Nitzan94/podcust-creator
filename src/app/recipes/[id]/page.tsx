@@ -101,19 +101,19 @@ export default async function RecipePage({ params }: RecipePageProps) {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-yellow-600">
-                {formatNumber(Number(recipe.totalCarbs) / recipe.servings, 1)}g
+                {formatNumber(Number(recipe.totalCarbs) / (recipe.servings || 1), 1)}g
               </div>
               <div className="text-sm text-zinc-500">פחמימות</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">
-                {formatNumber(Number(recipe.totalFat) / recipe.servings, 1)}g
+                {formatNumber(Number(recipe.totalFat) / (recipe.servings || 1), 1)}g
               </div>
               <div className="text-sm text-zinc-500">שומן</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-600">
-                {formatNumber(Number(recipe.totalFiber) / recipe.servings, 1)}g
+                {formatNumber(Number(recipe.totalFiber) / (recipe.servings || 1), 1)}g
               </div>
               <div className="text-sm text-zinc-500">סיבים</div>
             </div>

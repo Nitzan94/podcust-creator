@@ -120,7 +120,7 @@ export function getServingUnitHebrew(unit: string): string {
 /**
  * Calculate total cooking time
  */
-export function getTotalTime(prepTime?: number, cookTime?: number): number {
+export function getTotalTime(prepTime?: number | null, cookTime?: number | null): number {
   return (prepTime || 0) + (cookTime || 0);
 }
 

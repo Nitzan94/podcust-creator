@@ -123,7 +123,7 @@ export async function createRecipe(data: {
       return {
         foodId: ing.foodId,
         quantity: ing.quantity.toString(),
-        unit: ing.unit,
+        unit: ing.unit as 'g' | 'ml' | 'unit' | 'cup' | 'tbsp' | 'tsp',
         notes: ing.notes,
       };
     })

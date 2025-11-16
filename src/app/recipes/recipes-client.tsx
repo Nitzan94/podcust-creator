@@ -58,7 +58,7 @@ export function RecipesClient({ initialRecipes }: RecipesClientProps) {
 
         // Match ingredients to DB
         const ingredientsWithIds = await Promise.all(
-          recipeData.ingredients.map(async (ing: any) => {
+          recipeData.ingredients.map(async (ing: { name: string; quantity: number; unit: string; notes?: string }) => {
             try {
               // Try exact search first
               let result = await api.foods.search(ing.name, 1);

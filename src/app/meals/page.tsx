@@ -60,7 +60,7 @@ export default function MealsPage() {
         parsedText: naturalInput,
         mealType: mealType || undefined,
         name: mealName || undefined,
-        items: parsed.mealData.items,
+        items: parsed.mealData.items as { foodId: string; quantity: number; unit: string; }[],
       });
       setNaturalInput('');
       setMealType('');

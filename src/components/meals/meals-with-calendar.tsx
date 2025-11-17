@@ -8,6 +8,7 @@ import api from '@/lib/api-client';
 
 interface Meal {
   id: string;
+  userId: string;
   name?: string;
   parsedText?: string;
   mealType?: string;
